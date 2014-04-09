@@ -42,7 +42,7 @@ for i,v in pairs(function_names) do
   p("  o."..v.."="..class_name.."."..v.."\n")
 end
 for i,v in pairs(variable_names) do
-  p("  o._"..v.."=nil\n")
+  p("  o._"..v.."=nil --init\n")
   p("  o.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
   p("  o.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
 end
