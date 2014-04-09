@@ -42,7 +42,7 @@ for i,v in pairs(function_names) do
   p("  o."..v.."="..class_name.."."..v.."\n")
 end
 for i,v in pairs(variable_names) do
-  p("  o."..v.."=nil\n")
+  p("  o._"..v.."=nil\n")
   p("  o.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
   p("  o.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
 end
@@ -58,11 +58,11 @@ end
 -- VARIABLE GETTERS/SETTERS
 for i,v in pairs(variable_names) do
   p("function "..class_name..":get"..firstToUpper(v).."()\n")
-  p("  return self."..v.."\n")
+  p("  return self._"..v.."\n")
   p("end\n\n")
 
   p("function "..class_name..":set"..firstToUpper(v).."(val)\n")
-  p("  self."..v.."=val\n")
+  p("  self._"..v.."=val\n")
   p("end\n\n")
 end
 
