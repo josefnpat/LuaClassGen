@@ -37,7 +37,7 @@ p("local "..class_name.. " = {}\n\n")
 
 -- NEW FUNCTION
 p("function "..class_name..".new()\n")
-p("  local c={}\n")
+p("  local o={}\n")
 for i,v in pairs(function_names) do
   p("  o."..v.."="..class_name.."."..v.."\n")
 end
@@ -69,7 +69,7 @@ end
 -- RETURN CLASS OBJECT
 p("return "..class_name.."\n")
 
-file_name = class_name..".class.lua"
+file_name = class_name.."class.lua"
 file = io.open(file_name,"w")
 file:write(s)
 file:close()
