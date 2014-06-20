@@ -37,16 +37,16 @@ p("local "..class_name.. " = {}\n\n")
 
 -- NEW FUNCTION
 p("function "..class_name..".new()\n")
-p("  local o={}\n")
+p("  local self={}\n")
 for i,v in pairs(function_names) do
-  p("  o."..v.."="..class_name.."."..v.."\n")
+  p("  self."..v.."="..class_name.."."..v.."\n")
 end
 for i,v in pairs(variable_names) do
-  p("  o._"..v.."=nil --init\n")
-  p("  o.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
-  p("  o.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
+  p("  self._"..v.."=nil --init\n")
+  p("  self.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
+  p("  self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
 end
-p("  return o\n")
+p("  return self\n")
 p("end\n\n")
 
 -- DEFINED FUNCTIONS
