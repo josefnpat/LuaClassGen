@@ -57,12 +57,12 @@ if fast then
   for i,v in pairs(function_names) do
     p("    self."..v.."="..class_name.."."..v.."\n")
   end
+  for i,v in pairs(variable_names) do
+    p("    self.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
+    p("    self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
+  end
   p("    table.insert("..class_name..".__live_pool,self)\n")
   p("  end\n")
-  for i,v in pairs(variable_names) do
-    p("  self.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
-    p("  self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
-  end
   p("  "..class_name..":reset(self)\n")
 else
   p("  local self={}\n")

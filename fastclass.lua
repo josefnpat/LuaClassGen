@@ -16,34 +16,34 @@ function fast.new()
     self.mousepreleased=fast.mousepreleased
     self.keypressed=fast.keypressed
     self.keyreleased=fast.keyreleased
+    self.getX=fast.getX
+    self.setX=fast.setX
+    self.getY=fast.getY
+    self.setY=fast.setY
+    self.getW=fast.getW
+    self.setW=fast.setW
+    self.getH=fast.getH
+    self.setH=fast.setH
+    self.getColor=fast.getColor
+    self.setColor=fast.setColor
+    self.getText=fast.getText
+    self.setText=fast.setText
+    self.getSubtext=fast.getSubtext
+    self.setSubtext=fast.setSubtext
+    self.getHelp=fast.getHelp
+    self.setHelp=fast.setHelp
+    self.getZindex=fast.getZindex
+    self.setZindex=fast.setZindex
+    self.getData=fast.getData
+    self.setData=fast.setData
+    self.getImage=fast.getImage
+    self.setImage=fast.setImage
+    self.getMusic=fast.getMusic
+    self.setMusic=fast.setMusic
+    self.getDelay=fast.getDelay
+    self.setDelay=fast.setDelay
     table.insert(fast.__live_pool,self)
   end
-  self.getX=fast.getX
-  self.setX=fast.setX
-  self.getY=fast.getY
-  self.setY=fast.setY
-  self.getW=fast.getW
-  self.setW=fast.setW
-  self.getH=fast.getH
-  self.setH=fast.setH
-  self.getColor=fast.getColor
-  self.setColor=fast.setColor
-  self.getText=fast.getText
-  self.setText=fast.setText
-  self.getSubtext=fast.getSubtext
-  self.setSubtext=fast.setSubtext
-  self.getHelp=fast.getHelp
-  self.setHelp=fast.setHelp
-  self.getZindex=fast.getZindex
-  self.setZindex=fast.setZindex
-  self.getData=fast.getData
-  self.setData=fast.setData
-  self.getImage=fast.getImage
-  self.setImage=fast.setImage
-  self.getMusic=fast.getMusic
-  self.setMusic=fast.setMusic
-  self.getDelay=fast.getDelay
-  self.setDelay=fast.setDelay
   fast:reset(self)
   return self
 end
