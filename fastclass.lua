@@ -13,7 +13,7 @@ function fast.new()
     self.draw=fast.draw
     self.update=fast.update
     self.mousepressed=fast.mousepressed
-    self.mousepreleased=fast.mousepreleased
+    self.mousereleased=fast.mousereleased
     self.keypressed=fast.keypressed
     self.keyreleased=fast.keyreleased
     self.getX=fast.getX
@@ -44,11 +44,11 @@ function fast.new()
     self.setDelay=fast.setDelay
     table.insert(fast.__live_pool,self)
   end
-  fast:reset(self)
+  fast.__reset(self)
   return self
 end
 
-function fast:reset()
+function fast.__reset(self)
   self._x=nil --init
   self._y=nil --init
   self._w=nil --init
@@ -88,7 +88,7 @@ end
 function fast:mousepressed()
 end
 
-function fast:mousepreleased()
+function fast:mousereleased()
 end
 
 function fast:keypressed()

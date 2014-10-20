@@ -63,7 +63,7 @@ if fast then
   end
   p("    table.insert("..class_name..".__live_pool,self)\n")
   p("  end\n")
-  p("  "..class_name..":reset()\n")
+  p("  "..class_name..".__reset(self)\n")
 else
   p("  local self={}\n")
   for i,v in pairs(function_names) do
@@ -80,7 +80,7 @@ p("end\n\n")
 
 -- RESET
 if fast then
-  p("function "..class_name..":reset()\n")
+  p("function "..class_name..".__reset(self)\n")
   for i,v in pairs(variable_names) do
     p("  self._"..v.."=nil --init\n")
   end

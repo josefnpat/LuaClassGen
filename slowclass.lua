@@ -5,7 +5,7 @@ function slow.new()
   self.draw=slow.draw
   self.update=slow.update
   self.mousepressed=slow.mousepressed
-  self.mousepreleased=slow.mousepreleased
+  self.mousereleased=slow.mousereleased
   self.keypressed=slow.keypressed
   self.keyreleased=slow.keyreleased
   self._x=nil --init
@@ -59,7 +59,7 @@ end
 function slow:mousepressed()
 end
 
-function slow:mousepreleased()
+function slow:mousereleased()
 end
 
 function slow:keypressed()
