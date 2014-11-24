@@ -1,2 +1,5 @@
-#!/bin/sh
-lua5.1 ./classgen.lua
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+lua5.1 $DIR/classgen.lua
