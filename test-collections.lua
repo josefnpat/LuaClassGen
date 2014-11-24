@@ -1,18 +1,17 @@
-
 --[[
 ~/repos/luaclassgen♠ lua ./classgen.lua
 Lua Class Generator
-Class Name: foo
+Class Name: foocol
 Fast? (y/N): 
 functions (csv): 
 collections (csv): hat
 variables (csv): 
-File written to `fooclass.lua`
+File written to `foocolclass.lua`
 --]]
 
-fooclass = require "fooclass"
+foocolclass = require "foocolclass"
 
-f = fooclass.new()
+f = foocolclass.new()
 
 hats = {
   {name="Best Hat"},

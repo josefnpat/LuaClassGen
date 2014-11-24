@@ -83,7 +83,8 @@ end
 p("-- LuaClassGen pregenerated functions\n\n")
 
 -- NEW FUNCTION
-p("function "..class_name..".new()\n")
+p("function "..class_name..".new(init)\n")
+p("  init = init or {}\n")
 if fast then
   p("  local self\n")
   p("  if #"..class_name..".__dead_pool > 0 then\n")
@@ -105,6 +106,9 @@ if fast then
   p("    table.insert("..class_name..".__live_pool,self)\n")
   p("  end\n")
   p("  "..class_name..".__reset(self)\n")
+  for i,v in pairs(variable_names) do
+    p("  self._"..v.."=init."..v.."\n")
+  end
 else -- slow
   p("  local self={}\n")
   for i,v in pairs(function_names) do
@@ -117,7 +121,7 @@ else -- slow
     p("  self.get"..firstToUpper(v).."s="..class_name..".get"..firstToUpper(v).."s\n")
   end
   for i,v in pairs(variable_names) do
-    p("  self._"..v.."=nil --init\n")
+    p("  self._"..v.."=init."..v.."\n")
     p("  self.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
     p("  self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
   end
