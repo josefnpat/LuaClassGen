@@ -57,7 +57,7 @@ end
 function_names_raw = ask("functions (csv)")
 function_names = function_names_raw == "" and {} or explode(",",function_names_raw)
 collection_names_raw = ask("collections (csv)")
-collection_names = variable_names_raw == "" and {} or explode(",",collection_names_raw)
+collection_names = collection_names_raw == "" and {} or explode(",",collection_names_raw)
 variable_names_raw = ask("variables (csv)")
 variable_names = variable_names_raw == "" and {} or explode(",",variable_names_raw)
 
