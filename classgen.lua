@@ -33,18 +33,22 @@ if fast then
 end
 function_names_raw = ask("functions (csv)")
 function_names = function_names_raw == "" and {} or explode(",",function_names_raw)
+collection_names_raw = ask("collections (csv)")
+collection_names = variable_names_raw == "" and {} or explode(",",collection_names_raw)
 variable_names_raw = ask("variables (csv)")
 variable_names = variable_names_raw == "" and {} or explode(",",variable_names_raw)
 
 -- CLASS OBJECT
 p("local "..class_name.. " = {}\n\n")
 
--- POOLS
-if fast then
-  p(class_name..".__dead_pool = {}\n")
-  p(class_name..".__dead_pool_max = "..dead_pool_max.."\n")
-  p(class_name..".__live_pool = {}\n\n")
+-- DEFINED FUNCTIONS
+for i,v in pairs(function_names) do
+  p("-- TODO\n")
+  p("function "..class_name..":"..v.."()\n")
+  p("end\n\n")
 end
+
+p("-- LuaClassGen pregenerated functions\n\n")
 
 -- NEW FUNCTION
 p("function "..class_name..".new()\n")
@@ -57,6 +61,11 @@ if fast then
   for i,v in pairs(function_names) do
     p("    self."..v.."="..class_name.."."..v.."\n")
   end
+  for i,v in pairs(collection_names) do
+    p("    self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
+    p("    self.remove"..firstToUpper(v).."="..class_name..".remove"..firstToUpper(v).."\n")
+    p("    self.get"..firstToUpper(v).."s="..class_name..".get"..firstToUpper(v).."s\n")
+  end
   for i,v in pairs(variable_names) do
     p("    self.get"..firstToUpper(v).."="..class_name..".get"..firstToUpper(v).."\n")
     p("    self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
@@ -64,10 +73,16 @@ if fast then
   p("    table.insert("..class_name..".__live_pool,self)\n")
   p("  end\n")
   p("  "..class_name..".__reset(self)\n")
-else
+else -- slow
   p("  local self={}\n")
   for i,v in pairs(function_names) do
     p("  self."..v.."="..class_name.."."..v.."\n")
+  end
+  for i,v in pairs(collection_names) do
+    p("  self._"..v.."s={}\n")
+    p("  self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
+    p("  self.remove"..firstToUpper(v).."="..class_name..".remove"..firstToUpper(v).."\n")
+    p("  self.get"..firstToUpper(v).."s="..class_name..".get"..firstToUpper(v).."s\n")
   end
   for i,v in pairs(variable_names) do
     p("  self._"..v.."=nil --init\n")
@@ -78,17 +93,69 @@ end
 p("  return self\n")
 p("end\n\n")
 
--- RESET
+-- VARIABLE GET/SET
+for i,v in pairs(variable_names) do
+  p("function "..class_name..":get"..firstToUpper(v).."()\n")
+  p("  return self._"..v.."\n")
+  p("end\n\n")
+
+  p("function "..class_name..":set"..firstToUpper(v).."(val)\n")
+  p("  self._"..v.."=val\n")
+  p("end\n\n")
+end
+
+-- COLLECTION ADD/REMOVE/GETS
+for i,v in pairs(collection_names) do
+  p("function "..class_name..":get"..firstToUpper(v).."s()\n")
+  p("  assert(not self._"..v.."s_dirty,\"Error: collection `self._"..v.."s` is dirty.\")\n")
+  p("  return self._"..v.."s\n")
+  p("end\n\n")
+
+  p("function "..class_name..":remove"..firstToUpper(v).."(val)\n")
+  p("  if val == nil then\n")
+  p("    for i,v in pairs(self._"..v.."s) do\n")
+  p("      if v._remove then\n")
+  p("        table.remove(self._"..v.."s,i)\n")
+  p("      end\n")
+  p("    end\n")
+  p("    self._"..v.."s_dirty=nil\n")
+  p("  else\n")
+  p("    local found = false\n")
+  p("    for i,v in pairs(self._"..v.."s) do\n")
+  p("      if v == val then\n")
+  p("        found = true\n")
+  p("        break\n")
+  p("      end\n")
+  p("    end\n")
+  p("    assert(found,\"Error: collection `self._"..v.."s` does not contain `val`\")\n")
+  p("    val._remove=true\n")
+  p("    self._"..v.."s_dirty=true\n")
+  p("  end\n")
+  p("end\n\n")
+
+  p("function "..class_name..":add"..firstToUpper(v).."(val)\n")
+  p("  assert(type(val)==\"table\",\"Error: collection `self._"..v.."s` can only add `table`\")\n")
+  p("  table.insert(self._"..v.."s,val)\n")
+  p("end\n\n")
+end
+
 if fast then
+  -- POOLS
+  p(class_name..".__dead_pool = {}\n")
+  p(class_name..".__dead_pool_max = "..dead_pool_max.."\n")
+  p(class_name..".__live_pool = {}\n\n")
+
+  -- RESET
   p("function "..class_name..".__reset(self)\n")
+  for i,v in pairs(collection_names) do
+    p("  self._"..v.."s={}\n")
+  end
   for i,v in pairs(variable_names) do
     p("  self._"..v.."=nil --init\n")
   end
   p("end\n\n")
-end
 
--- DESTROY
-if fast then
+  -- DESTROY
   p("function "..class_name..":destroy()\n")
   p("  for index,obj in pairs("..class_name..".__live_pool) do\n")
   p("    if obj == self then\n")
@@ -102,23 +169,6 @@ if fast then
   p("    end\n")
   p("  end\n")
   p("  return false -- object was not in live_pool\n")
-  p("end\n\n")
-end
-
--- DEFINED FUNCTIONS
-for i,v in pairs(function_names) do
-  p("function "..class_name..":"..v.."()\n")
-  p("end\n\n")
-end
-
--- VARIABLE GETTERS/SETTERS
-for i,v in pairs(variable_names) do
-  p("function "..class_name..":get"..firstToUpper(v).."()\n")
-  p("  return self._"..v.."\n")
-  p("end\n\n")
-
-  p("function "..class_name..":set"..firstToUpper(v).."(val)\n")
-  p("  self._"..v.."=val\n")
   p("end\n\n")
 end
 

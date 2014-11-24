@@ -1,8 +1,26 @@
 local fast = {}
 
-fast.__dead_pool = {}
-fast.__dead_pool_max = 100
-fast.__live_pool = {}
+-- TODO
+function fast:draw()
+end
+
+-- TODO
+function fast:update()
+end
+
+-- TODO
+function fast:mousepressed()
+end
+
+-- TODO
+function fast:mousereleased()
+end
+
+-- TODO
+function fast:keyreleased()
+end
+
+-- LuaClassGen pregenerated functions
 
 function fast.new()
   local self
@@ -14,8 +32,16 @@ function fast.new()
     self.update=fast.update
     self.mousepressed=fast.mousepressed
     self.mousereleased=fast.mousereleased
-    self.keypressed=fast.keypressed
     self.keyreleased=fast.keyreleased
+    self.addPlayer=fast.addPlayer
+    self.removePlayer=fast.removePlayer
+    self.getPlayers=fast.getPlayers
+    self.addBullet=fast.addBullet
+    self.removeBullet=fast.removeBullet
+    self.getBullets=fast.getBullets
+    self.addBadguy=fast.addBadguy
+    self.removeBadguy=fast.removeBadguy
+    self.getBadguys=fast.getBadguys
     self.getX=fast.getX
     self.setX=fast.setX
     self.getY=fast.getY
@@ -32,8 +58,8 @@ function fast.new()
     self.setSubtext=fast.setSubtext
     self.getHelp=fast.getHelp
     self.setHelp=fast.setHelp
-    self.getZindex=fast.getZindex
-    self.setZindex=fast.setZindex
+    self.getZindes=fast.getZindes
+    self.setZindes=fast.setZindes
     self.getData=fast.getData
     self.setData=fast.setData
     self.getImage=fast.getImage
@@ -46,55 +72,6 @@ function fast.new()
   end
   fast.__reset(self)
   return self
-end
-
-function fast.__reset(self)
-  self._x=nil --init
-  self._y=nil --init
-  self._w=nil --init
-  self._h=nil --init
-  self._color=nil --init
-  self._text=nil --init
-  self._subtext=nil --init
-  self._help=nil --init
-  self._zindex=nil --init
-  self._data=nil --init
-  self._image=nil --init
-  self._music=nil --init
-  self._delay=nil --init
-end
-
-function fast:destroy()
-  for index,obj in pairs(fast.__live_pool) do
-    if obj == self then
-      if #fast.__dead_pool < fast.__dead_pool_max then
-        table.insert(fast.__dead_pool,
-          table.remove(fast.__live_pool,index))
-      else
-        table.remove(fast.__live_pool,index)
-      end
-      return true -- object has been marked as dead
-    end
-  end
-  return false -- object was not in live_pool
-end
-
-function fast:draw()
-end
-
-function fast:update()
-end
-
-function fast:mousepressed()
-end
-
-function fast:mousereleased()
-end
-
-function fast:keypressed()
-end
-
-function fast:keyreleased()
 end
 
 function fast:getX()
@@ -161,12 +138,12 @@ function fast:setHelp(val)
   self._help=val
 end
 
-function fast:getZindex()
-  return self._zindex
+function fast:getZindes()
+  return self._zindes
 end
 
-function fast:setZindex(val)
-  self._zindex=val
+function fast:setZindes(val)
+  self._zindes=val
 end
 
 function fast:getData()
@@ -199,6 +176,140 @@ end
 
 function fast:setDelay(val)
   self._delay=val
+end
+
+function fast:getPlayers()
+  assert(not self._players_dirty,"Error: collection `self._players` is dirty.")
+  return self._players
+end
+
+function fast:removePlayer(val)
+  if val == nil then
+    for i,v in pairs(self._players) do
+      if v._remove then
+        table.remove(self._players,i)
+      end
+    end
+    self._players_dirty=nil
+  else
+    local found = false
+    for i,v in pairs(self._players) do
+      if v == val then
+        found = true
+        break
+      end
+    end
+    assert(found,"Error: collection `self._players` does not contain `val`")
+    val._remove=true
+    self._players_dirty=true
+  end
+end
+
+function fast:addPlayer(val)
+  assert(type(val)=="table","Error: collection `self._players` can only add `table`")
+  table.insert(self._players,val)
+end
+
+function fast:getBullets()
+  assert(not self._bullets_dirty,"Error: collection `self._bullets` is dirty.")
+  return self._bullets
+end
+
+function fast:removeBullet(val)
+  if val == nil then
+    for i,v in pairs(self._bullets) do
+      if v._remove then
+        table.remove(self._bullets,i)
+      end
+    end
+    self._bullets_dirty=nil
+  else
+    local found = false
+    for i,v in pairs(self._bullets) do
+      if v == val then
+        found = true
+        break
+      end
+    end
+    assert(found,"Error: collection `self._bullets` does not contain `val`")
+    val._remove=true
+    self._bullets_dirty=true
+  end
+end
+
+function fast:addBullet(val)
+  assert(type(val)=="table","Error: collection `self._bullets` can only add `table`")
+  table.insert(self._bullets,val)
+end
+
+function fast:getBadguys()
+  assert(not self._badguys_dirty,"Error: collection `self._badguys` is dirty.")
+  return self._badguys
+end
+
+function fast:removeBadguy(val)
+  if val == nil then
+    for i,v in pairs(self._badguys) do
+      if v._remove then
+        table.remove(self._badguys,i)
+      end
+    end
+    self._badguys_dirty=nil
+  else
+    local found = false
+    for i,v in pairs(self._badguys) do
+      if v == val then
+        found = true
+        break
+      end
+    end
+    assert(found,"Error: collection `self._badguys` does not contain `val`")
+    val._remove=true
+    self._badguys_dirty=true
+  end
+end
+
+function fast:addBadguy(val)
+  assert(type(val)=="table","Error: collection `self._badguys` can only add `table`")
+  table.insert(self._badguys,val)
+end
+
+fast.__dead_pool = {}
+fast.__dead_pool_max = 100
+fast.__live_pool = {}
+
+function fast.__reset(self)
+  self._players={}
+  self._bullets={}
+  self._badguys={}
+  self._x=nil --init
+  self._y=nil --init
+  self._w=nil --init
+  self._h=nil --init
+  self._color=nil --init
+  self._text=nil --init
+  self._subtext=nil --init
+  self._help=nil --init
+  self._zindes=nil --init
+  self._data=nil --init
+  self._image=nil --init
+  self._music=nil --init
+  self._delay=nil --init
+end
+
+function fast:destroy()
+  for index,obj in pairs(fast.__live_pool) do
+    if obj == self then
+      if #fast.__dead_pool < fast.__dead_pool_max then
+        table.insert(fast.__dead_pool,
+          table.remove(fast.__live_pool,index))
+      else
+        table.remove(fast.__live_pool,index)
+      end
+      return true -- object has been marked as dead
+    end
+  end
+  return false -- object was not in live_pool
 end
 
 return fast
