@@ -19,6 +19,29 @@ function firstToUpper(str)
   return (str:gsub("^%l", string.upper))
 end
 
+file = {}
+function file.exists(file_name)
+  local f = io.open(file_name, "rb")
+  if f then f:close() end
+  return f ~= nil
+end
+function file.readlines(file_name)
+  if not file.exists(file_name) then return {} end
+  lines = {}
+  for line in io.lines(file_name) do 
+    lines[#lines + 1] = line
+  end
+  return lines
+end
+function file.read(file_name)
+  return table.concat( file.readlines(file_name) , "\n" )
+end
+function file.write(file_name,s)
+  file = io.open(file_name,"w")
+  file:write(s)
+  file:close()
+end
+
 s=""
 function p(str)
   s = s..str
@@ -38,13 +61,22 @@ collection_names = variable_names_raw == "" and {} or explode(",",collection_nam
 variable_names_raw = ask("variables (csv)")
 variable_names = variable_names_raw == "" and {} or explode(",",variable_names_raw)
 
+file_name = class_name.."class.lua"
+
 -- CLASS OBJECT
 p("local "..class_name.. " = {}\n\n")
 
 -- DEFINED FUNCTIONS
 for i,v in pairs(function_names) do
-  p("-- TODO\n")
   p("function "..class_name..":"..v.."()\n")
+  local check_name = class_name.."class."..v..".lcg.lua"
+  if file.exists(check_name) then
+    for _,line in pairs(file.readlines(check_name)) do
+      p("  "..line.."\n")
+    end
+  else
+    p("  -- TODO ("..check_name..")\n")
+  end
   p("end\n\n")
 end
 
@@ -175,9 +207,6 @@ end
 -- RETURN CLASS OBJECT
 p("return "..class_name.."\n")
 
-file_name = class_name.."class.lua"
-file = io.open(file_name,"w")
-file:write(s)
-file:close()
+file.write(file_name,s)
 
 io.write("File written to `"..file_name.."`\n")

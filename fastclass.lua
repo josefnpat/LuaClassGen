@@ -1,23 +1,23 @@
 local fast = {}
 
--- TODO
 function fast:draw()
+  -- TODO (fastclass.draw.lcg.lua)
 end
 
--- TODO
 function fast:update()
+  -- TODO (fastclass.update.lcg.lua)
 end
 
--- TODO
 function fast:mousepressed()
+  -- TODO (fastclass.mousepressed.lcg.lua)
 end
 
--- TODO
 function fast:mousereleased()
+  -- TODO (fastclass.mousereleased.lcg.lua)
 end
 
--- TODO
 function fast:keyreleased()
+  -- TODO (fastclass.keyreleased.lcg.lua)
 end
 
 -- LuaClassGen pregenerated functions
@@ -58,8 +58,8 @@ function fast.new()
     self.setSubtext=fast.setSubtext
     self.getHelp=fast.getHelp
     self.setHelp=fast.setHelp
-    self.getZindes=fast.getZindes
-    self.setZindes=fast.setZindes
+    self.getZindex=fast.getZindex
+    self.setZindex=fast.setZindex
     self.getData=fast.getData
     self.setData=fast.setData
     self.getImage=fast.getImage
@@ -138,12 +138,12 @@ function fast:setHelp(val)
   self._help=val
 end
 
-function fast:getZindes()
-  return self._zindes
+function fast:getZindex()
+  return self._zindex
 end
 
-function fast:setZindes(val)
-  self._zindes=val
+function fast:setZindex(val)
+  self._zindex=val
 end
 
 function fast:getData()
@@ -290,7 +290,7 @@ function fast.__reset(self)
   self._text=nil --init
   self._subtext=nil --init
   self._help=nil --init
-  self._zindes=nil --init
+  self._zindex=nil --init
   self._data=nil --init
   self._image=nil --init
   self._music=nil --init

@@ -1,23 +1,23 @@
 local slow = {}
 
--- TODO
 function slow:draw()
+  -- TODO (slowclass.draw.lcg.lua)
 end
 
--- TODO
 function slow:update()
+  -- TODO (slowclass.update.lcg.lua)
 end
 
--- TODO
 function slow:mousepressed()
+  -- TODO (slowclass.mousepressed.lcg.lua)
 end
 
--- TODO
 function slow:mousereleased()
+  -- TODO (slowclass.mousereleased.lcg.lua)
 end
 
--- TODO
 function slow:keyreleased()
+  -- TODO (slowclass.keyreleased.lcg.lua)
 end
 
 -- LuaClassGen pregenerated functions
@@ -65,9 +65,9 @@ function slow.new()
   self._help=nil --init
   self.getHelp=slow.getHelp
   self.setHelp=slow.setHelp
-  self._zindes=nil --init
-  self.getZindes=slow.getZindes
-  self.setZindes=slow.setZindes
+  self._zindex=nil --init
+  self.getZindex=slow.getZindex
+  self.setZindex=slow.setZindex
   self._data=nil --init
   self.getData=slow.getData
   self.setData=slow.setData
@@ -147,12 +147,12 @@ function slow:setHelp(val)
   self._help=val
 end
 
-function slow:getZindes()
-  return self._zindes
+function slow:getZindex()
+  return self._zindex
 end
 
-function slow:setZindes(val)
-  self._zindes=val
+function slow:setZindex(val)
+  self._zindex=val
 end
 
 function slow:getData()
