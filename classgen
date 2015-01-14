@@ -2,4 +2,6 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-lua5.1 "$DIR/classgen.lua" "$@"
+cd $DIR
+
+lua5.1 "./classgen.lua" "$@"
