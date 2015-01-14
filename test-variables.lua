@@ -1,14 +1,3 @@
---[[
-~/repos/luaclassgen♠ ./classgen 
-Lua Class Generator
-Class Name: foovar
-Fast? (y/N): <y&n>
-functions (csv): 
-collections (csv): 
-variables (csv): x
-File written to `foovarclass.lua`
---]]
-
 foovarclass = require "foovarclass"
 
 -- Valid override

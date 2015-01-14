@@ -1,24 +1,3 @@
---[[
-~/repos/luaclassgen♠ ./classgen 
-Lua Class Generator
-Class Name: fast
-Fast? (y/N): y
-Dead pool max (int): 100
-functions (csv): draw,update,mousepressed,mousereleased,keyreleased
-collections (csv): player,bullet,badguy
-variables (csv): x,y,width,height,color,text,subtext,help,zindes,data,image,music,delay
-File written to `fastclass.lua`
-
-~/repos/luaclassgen♠ ./classgen 
-Lua Class Generator
-Class Name: slow
-Fast? (y/N): 
-functions (csv): draw,update,mousepressed,mousereleased,keyreleased
-collections (csv): player,bullet,badguy
-variables (csv): x,y,width,height,color,text,subtext,help,zindes,data,image,music,delay
-File written to `slowclass.lua`
-]]--
-
 require"socket"
 
 fast = require("fastclass")
