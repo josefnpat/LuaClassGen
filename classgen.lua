@@ -1,6 +1,48 @@
-function ask(q)
+require "json"
+
+file = {}
+function file.exists(file_name)
+  local f = io.open(file_name, "rb")
+  if f then f:close() end
+  return f ~= nil
+end
+function file.readlines(file_name)
+  if not file.exists(file_name) then return {} end
+  local lines = {}
+  for line in io.lines(file_name) do 
+    lines[#lines + 1] = line
+  end
+  return lines
+end
+function file.read(file_name)
+  return table.concat( file.readlines(file_name) , "\n" )
+end
+function file.write(file_name,s)
+  local file = io.open(file_name,"w")
+  file:write(s)
+  file:close()
+end
+
+if arg[1] == "-i" then
+  local input_raw = file.read(arg[2])
+  input = json.decode(input_raw)
+elseif arg[1] == "-o" then
+  output = {}
+end
+
+function ask(q,i)
   io.write(q..": ")
-  return io.read()
+  local ans
+  if input and input[i] then
+    io.write(input[i].."\n")
+    return input[i]
+  else
+    ans = io.read()
+  end
+  if output then
+    output[i] = ans
+  end
+  return ans
 end
 
 function explode(div,str) -- credit: http://richard.warburton.it
@@ -19,46 +61,23 @@ function firstToUpper(str)
   return (str:gsub("^%l", string.upper))
 end
 
-file = {}
-function file.exists(file_name)
-  local f = io.open(file_name, "rb")
-  if f then f:close() end
-  return f ~= nil
-end
-function file.readlines(file_name)
-  if not file.exists(file_name) then return {} end
-  lines = {}
-  for line in io.lines(file_name) do 
-    lines[#lines + 1] = line
-  end
-  return lines
-end
-function file.read(file_name)
-  return table.concat( file.readlines(file_name) , "\n" )
-end
-function file.write(file_name,s)
-  file = io.open(file_name,"w")
-  file:write(s)
-  file:close()
-end
-
 s=""
 function p(str)
   s = s..str
 end
 
 io.write("Lua Class Generator\n")
-class_name_raw = ask("Class Name")
+class_name_raw = ask("Class Name","class_name")
 class_name = class_name_raw == "" and "anon" or class_name_raw
-fast = ask("Fast? (y/N)") == "y"
+fast = ask("Fast? (y/N)","fast") == "y"
 if fast then
-  dead_pool_max = ask("Dead pool max (int)")
+  dead_pool_max = ask("Dead pool max (int)","dead_pool_max")
 end
-function_names_raw = ask("functions (csv)")
+function_names_raw = ask("functions (csv)","functions")
 function_names = function_names_raw == "" and {} or explode(",",function_names_raw)
-collection_names_raw = ask("collections (csv)")
+collection_names_raw = ask("collections (csv)","collections")
 collection_names = collection_names_raw == "" and {} or explode(",",collection_names_raw)
-variable_names_raw = ask("variables (csv)")
+variable_names_raw = ask("variables (csv)","variables")
 variable_names = variable_names_raw == "" and {} or explode(",",variable_names_raw)
 
 file_name = class_name.."class.lua"
@@ -211,6 +230,12 @@ end
 -- RETURN CLASS OBJECT
 p("return "..class_name.."\n")
 
+file_name=class_name.."class.lua"
 file.write(file_name,s)
-
 io.write("File written to `"..file_name.."`\n")
+
+if output then
+  local output_raw = json.encode(output)
+  file.write(arg[2],output_raw)
+  io.write("Config written to `"..arg[2].."`\n")
+end
