@@ -23,11 +23,22 @@ function file.write(file_name,s)
   file:close()
 end
 
-if arg[1] == "-i" then
-  local input_raw = file.read(arg[2])
-  input = json.decode(input_raw)
-elseif arg[1] == "-o" then
-  output = {}
+target = ""
+
+for i,v in pairs(arg) do
+  if i <= 0 then
+    -- TOP
+  else
+    if v == "-i" then
+      local input_raw = file.read(arg[i+1])
+      input = json.decode(input_raw)
+    elseif v == "-o" then
+      output = {}
+      output_target = arg[i+1]
+    elseif v == "--target" then
+      target = arg[i+1] .. "/"
+    end
+  end
 end
 
 function ask(q,i)
@@ -232,11 +243,11 @@ end
 p("return "..class_name.."\n")
 
 file_name=class_name.."class.lua"
-file.write(file_name,s)
-io.write("File written to `"..file_name.."`\n")
+file.write(target..file_name,s)
+io.write("File written to `"..target..file_name.."`\n")
 
 if output then
   local output_raw = json.encode(output)
-  file.write(arg[2],output_raw)
-  io.write("Config written to `"..arg[2].."`\n")
+  file.write(output_target,output_raw)
+  io.write("Config written to `"..output_target.."`\n")
 end
