@@ -111,8 +111,6 @@ for i,v in pairs(function_names) do
   p("end\n\n")
 end
 
-p("-- LuaClassGen pregenerated functions\n\n")
-
 -- NEW FUNCTION
 p("function "..class_name..".new(init)\n")
 p("  init = init or {}\n")
