@@ -169,6 +169,7 @@ for i,v in pairs(variable_names) do
 
   p("function "..class_name..":set"..firstToUpper(v).."(val)\n")
   p("  self._"..v.."=val\n")
+  p("  return self\n")
   p("end\n\n")
 end
 
@@ -177,6 +178,7 @@ for i,v in pairs(collection_names) do
   p("function "..class_name..":add"..firstToUpper(v).."(val)\n")
   p("  assert(type(val)==\"table\",\"Error: collection `self._"..v.."s` can only add `table`\")\n")
   p("  table.insert(self._"..v.."s,val)\n")
+  p("  return self\n")
   p("end\n\n")
 
   p("function "..class_name..":remove"..firstToUpper(v).."(val)\n")
@@ -199,6 +201,7 @@ for i,v in pairs(collection_names) do
   p("    val._remove=true\n")
   p("    self._"..v.."s_dirty=true\n")
   p("  end\n")
+  p("  return self\n")
   p("end\n\n")
 
   p("function "..class_name..":get"..firstToUpper(v).."s()\n")
