@@ -158,6 +158,9 @@ end
 p("  return self\n")
 p("end\n\n")
 
+p("setmetatable("..class_name..",{__call=function() return "..class_name..".new end})\n")
+
+
 -- VARIABLE GET/SET
 for i,v in pairs(variable_names) do
   p("function "..class_name..":get"..firstToUpper(v).."()\n")
