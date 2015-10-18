@@ -91,6 +91,8 @@ variable_names_raw = ask("variables (csv)","variables")
 variable_names = variable_names_raw == "" and {} or explode(",",variable_names_raw)
 collection_names_raw = ask("collections (csv)","collections")
 collection_names = collection_names_raw == "" and {} or explode(",",collection_names_raw)
+advanced_collection_names_raw = ask("advanced collections (csv)","advanced collections")
+advanced_collection_names = advanced_collection_names_raw == "" and {} or explode(",",advanced_collection_names_raw)
 
 file_name = class_name.."class.lua"
 
@@ -129,6 +131,9 @@ if fast then
   end
   for i,v in pairs(collection_names) do
     p("    self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
+  end
+  for i,v in pairs(advanced_collection_names) do
+    p("    self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
     p("    self.remove"..firstToUpper(v).."="..class_name..".remove"..firstToUpper(v).."\n")
     p("    self.get"..firstToUpper(v).."s="..class_name..".get"..firstToUpper(v).."s\n")
   end
@@ -149,6 +154,10 @@ else -- slow
     p("  self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
   end
   for i,v in pairs(collection_names) do
+    p("  self._"..v.."s={}\n")
+    p("  self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
+  end
+  for i,v in pairs(advanced_collection_names) do
     p("  self._"..v.."s={}\n")
     p("  self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
     p("  self.remove"..firstToUpper(v).."="..class_name..".remove"..firstToUpper(v).."\n")
@@ -173,10 +182,20 @@ for i,v in pairs(variable_names) do
   p("end\n\n")
 end
 
--- COLLECTION ADD/REMOVE/GETS
+-- COLLECTION ADD
 for i,v in pairs(collection_names) do
+  p("function "..class_name..":add"..firstToUpper(v).."(...)\n")
+  p("  for _,val in pairs({...}) do\n")
+  p("     table.insert(self._"..v.."s,val)\n")
+  p("  end\n")
+  p("  return self\n")
+  p("end\n\n")
+end
+
+-- ADVANCED COLLECTION ADD/REMOVE/GETS
+for i,v in pairs(advanced_collection_names) do
   p("function "..class_name..":add"..firstToUpper(v).."(val)\n")
-  p("  assert(type(val)==\"table\",\"Error: collection `self._"..v.."s` can only add `table`\")\n")
+  p("  assert(type(val)==\"table\",\"Error: advanced_collection `self._"..v.."s` can only add `table`\")\n")
   p("  table.insert(self._"..v.."s,val)\n")
   p("  return self\n")
   p("end\n\n")
@@ -197,7 +216,7 @@ for i,v in pairs(collection_names) do
   p("        break\n")
   p("      end\n")
   p("    end\n")
-  p("    assert(found,\"Error: collection `self._"..v.."s` does not contain `val`\")\n")
+  p("    assert(found,\"Error: advanced_collection `self._"..v.."s` does not contain `val`\")\n")
   p("    val._remove=true\n")
   p("    self._"..v.."s_dirty=true\n")
   p("  end\n")
@@ -205,7 +224,7 @@ for i,v in pairs(collection_names) do
   p("end\n\n")
 
   p("function "..class_name..":get"..firstToUpper(v).."s()\n")
-  p("  assert(not self._"..v.."s_dirty,\"Error: collection `self._"..v.."s` is dirty.\")\n")
+  p("  assert(not self._"..v.."s_dirty,\"Error: advanced_collection `self._"..v.."s` is dirty.\")\n")
   p("  return self._"..v.."s\n")
   p("end\n\n")
 
@@ -219,7 +238,7 @@ if fast then
 
   -- RESET
   p("function "..class_name..".__reset(self)\n")
-  for i,v in pairs(collection_names) do
+  for i,v in pairs(advanced_collection_names) do
     p("  self._"..v.."s={}\n")
   end
   for i,v in pairs(variable_names) do

@@ -1,1 +1,1 @@
-{"dead_pool_max":"100","collections":"player,bullet,badguy","functions":"draw,update,mousepressed,mousereleased,keyreleased","variables":"x,y,width,height,color,text,subtext,help,zindes,data,image,music,delay","class_name":"fast","fast":"y"}
+{"dead_pool_max":"100","advanced collections":"player,bullet,badguy","collections":"","functions":"draw,update,mousepressed,mousereleased,keyreleased","variables":"x,y,width,height,color,text,subtext,help,zindes,data,image,music,delay","class_name":"fast","fast":"y"}
