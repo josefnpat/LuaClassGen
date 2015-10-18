@@ -18,7 +18,8 @@ function file.read(file_name)
   return table.concat( file.readlines(file_name) , "\n" )
 end
 function file.write(file_name,s)
-  local file = io.open(file_name,"w")
+  local file,err = io.open(file_name,"w")
+  assert(file,err)
   file:write(s)
   file:close()
 end
