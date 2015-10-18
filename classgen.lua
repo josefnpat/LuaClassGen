@@ -167,7 +167,7 @@ end
 p("  return self\n")
 p("end\n\n")
 
-p("setmetatable("..class_name..",{__call=function() return "..class_name..".new end})\n")
+p("setmetatable("..class_name..",{__call=function() return "..class_name..".new end})\n\n")
 
 
 -- VARIABLE GET/SET
