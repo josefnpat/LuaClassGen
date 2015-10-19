@@ -154,7 +154,7 @@ else -- slow
     p("  self.set"..firstToUpper(v).."="..class_name..".set"..firstToUpper(v).."\n")
   end
   for i,v in pairs(collection_names) do
-    p("  self._"..v.."s={}\n")
+    p("  self._"..v.."s=init."..v.." or {}\n")
     p("  self.add"..firstToUpper(v).."="..class_name..".add"..firstToUpper(v).."\n")
   end
   for i,v in pairs(advanced_collection_names) do
